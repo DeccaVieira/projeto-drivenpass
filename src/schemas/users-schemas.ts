@@ -1,6 +1,8 @@
-import Joi from "../node_modules/joi/lib/index";
+import Joi from "../../node_modules/joi/lib/index";
 
-export const createUserSchema ({
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
+const signUpSchema = Joi.object ({
+  email: Joi.string().email().required().min(3).max(50),
+  password: Joi.string().required().min(6),
 });
+
+export default signUpSchema;
