@@ -1,7 +1,9 @@
 import { Router } from "express";
-
-import { createUserSchema } from "../schemas/users-schemas";
+import signUpController from "../controllers/user-controllers.js";
+import middlewareSignUp from "../middlewares/signUp-middleware.js";
 
 const userRouter = Router();
 
-userRouter.post("/cadastro")
+userRouter.post("/cadastro", middlewareSignUp.validateSignUp, signUpController.signUp);
+
+export default userRouter;

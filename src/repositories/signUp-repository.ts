@@ -1,13 +1,23 @@
-import prisma from "../../database/database"
+import prisma from "../../database/database.js";
 
-async function findEmail(email : string) {
+async function findEmail(email: string) {
   return prisma.user.findFirst({
-    where: {email : email}
-  })
-  }
-
-const signUpRepository = {
-  findEmail
+    where: { email: email },
+  });
 }
 
-export default signUpRepository
+async function createUser(email, hashPassword) {
+  return prisma.user.create({
+    data: {
+      email: email,
+      password: hashPassword,
+    },
+  });
+}
+
+const signUpRepository = {
+  findEmail,
+  createUser,
+};
+
+export default signUpRepository;
