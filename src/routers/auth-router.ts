@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { login } from "../controllers/auth-controller";
-
+import signInCont from "../controllers/auth-controller.js";
+import signInMiddleware from "../middlewares/signIn-middleware.js";
 const authRouter = Router();
 
-authRouter.post("/sign-in", login);
+authRouter.post("/entrar", signInMiddleware.validateSignIn, signInCont.signInController);
 
 export {authRouter};
