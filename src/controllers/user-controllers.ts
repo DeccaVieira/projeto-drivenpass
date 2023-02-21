@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 import signUpService from "../services/signUp-service.js";
 
 async function signUp(req: Request, res: Response) {
-  const { email, password } = res.locals.user;
+  const { email, password} = res.locals.user;
+
   const hashPassword = bcrypt.hashSync(password, 10);
 
   try{
