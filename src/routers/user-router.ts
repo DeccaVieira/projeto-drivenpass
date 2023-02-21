@@ -4,6 +4,6 @@ import middlewareSignUp from "../middlewares/signUp-middleware.js";
 
 const userRouter = Router();
 
-userRouter.post("/cadastro", middlewareSignUp.validateSignUp, signUpController.signUp);
+userRouter.post("/sign-up", middlewareSignUp.validateSignUp, signUpController.signUp);
 
 export default userRouter;

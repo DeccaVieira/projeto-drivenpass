@@ -16,10 +16,10 @@ async function userLogin(email, password) {
   if (!userExists) {
     throw new Error();
   }
-  console.log(userExists);
+
 
   await comparePassword(password, userExists.password);
-  const token = await createToken(userExists.id);
+  const token = await createToken(userExists);
 
   return {
     user: exclude(userExists, "password"),
@@ -27,8 +27,10 @@ async function userLogin(email, password) {
   };
 }
 
-async function createToken(userId: number) {
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET);
+async function createToken(userExists) {
+console.log(userExists,"teste")
+  const token = jwt.sign(
+    { id:userExists.id, email: userExists.email } , process.env.JWT_SECRET);
   console.log(token, "token");
   
   return token;
