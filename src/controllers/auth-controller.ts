@@ -7,7 +7,7 @@ console.log(email,password);
   try{
 const set = await signInService.userLogin(email, password);
 
-    return res.status(200).send(set.token.jwt);
+    return res.status(200).send(set.token);
 
   }
   catch (error) {
