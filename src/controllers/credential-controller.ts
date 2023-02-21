@@ -30,10 +30,20 @@ async function postCredential(req: AuthenticatedRequest, res: Response) {
 
 }
 
+async function GetAllCredentials(req: AuthenticatedRequest, res: Response){
+  const {id} = res.locals.user;
+  try {
+  const credentials = await credencialService.findByUserId(id)
+  return res.status(200).send(credentials);
+  }catch (error) {
+    console.log(error);
+    return res.status(422).send(error);
+  }
+}
 
 
 const credentialController = {
-  postCredential,
+  postCredential,GetAllCredentials
 };
 
 export default credentialController;

@@ -7,5 +7,6 @@ import tokenAuthentication from "../middlewares/authentication-middleware.js"
 const credencialRouter = Router();
 
 credencialRouter.post("/credentials", tokenAuthentication ,credentialController.postCredential);
-
+credencialRouter.get("/credentials", tokenAuthentication, credentialController.GetAllCredentials);
+credencialRouter.get("/credentials/:id")
 export default credencialRouter;
