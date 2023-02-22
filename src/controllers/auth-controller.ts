@@ -3,7 +3,7 @@ import signInService from "../services/signIn-service.js";
 
 async function signInController(req:Request, res: Response){
   const { email, password } = res.locals.user;
-console.log(email,password);
+
   try{
 const set = await signInService.userLogin(email, password);
 

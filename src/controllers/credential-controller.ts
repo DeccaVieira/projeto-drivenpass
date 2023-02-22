@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../middlewares/authentication-middleware.js";
-import credencialService from "../services/credential-service.js";
-import Cryptr from "cryptr";
 import credentialService from "../services/credential-service.js";
+import Cryptr from "cryptr";
 
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
 
@@ -17,10 +16,9 @@ async function postCredential(req: AuthenticatedRequest, res: Response) {
     password: encryptedString,
     userId: id,
   };
-  console.log(credential);
-
+ 
   try {
-    await credencialService.createCredentialService(credential);
+    await credentialService.createCredentialService(credential);
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -28,11 +26,13 @@ async function postCredential(req: AuthenticatedRequest, res: Response) {
   }
 }
 
+
+
 async function GetAllCredentials(req: AuthenticatedRequest, res: Response) {
   const { id } = res.locals.user;
 
   try {
-    const credentials = await credencialService.findByUserId(id);
+    const credentials = await credentialService.findByUserId(id);
     const decrypted = credentials.map((c) => {
       const password = cryptr.decrypt(c.password);
       return { ...c, password };
@@ -51,7 +51,7 @@ async function getCredentialById(req: AuthenticatedRequest, res: Response) {
   const idCredential = +credentialId;
   const userId = +id;
   try {
-    const credentialById = await credencialService.findByCredentialId(
+    const credentialById = await credentialService.findByCredentialId(
       userId,
       idCredential
     );

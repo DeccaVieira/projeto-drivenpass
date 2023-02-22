@@ -1,5 +1,4 @@
-import { number } from "joi";
-import { Credential, Credentials } from "../protocols/credential-protocols.js";
+import { Credential} from "../protocols/credential-protocols.js";
 import credentialRepository from "../repositories/credentials-repository.js";
 
 async function createCredentialService(credential: Credential) {
