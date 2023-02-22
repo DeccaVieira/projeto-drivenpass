@@ -8,5 +8,5 @@ const credencialRouter = Router();
 
 credencialRouter.post("/credentials", tokenAuthentication ,credentialController.postCredential);
 credencialRouter.get("/credentials", tokenAuthentication, credentialController.GetAllCredentials);
-credencialRouter.get("/credentials/:id")
+credencialRouter.get("/credentials/:id", tokenAuthentication, credentialController.getCredentialById);
 export default credencialRouter;

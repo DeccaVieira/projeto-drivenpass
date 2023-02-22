@@ -1,5 +1,5 @@
 import { number } from "joi";
-import { Credential } from "../protocols/credential-protocols.js";
+import { Credential, Credentials } from "../protocols/credential-protocols.js";
 import credentialRepository from "../repositories/credentials-repository.js";
 
 async function createCredentialService(credential: Credential) {
@@ -23,8 +23,18 @@ if(!allCredentials){
 return allCredentials;
 }
 
+async function findByCredentialId(userId: number, credentialId){
+  console.log(typeof(credentialId), "idcr");
+  
+  const credentialById = await credentialRepository.findIdCredentialsByUser(userId, credentialId)
+if(!credentialById){
+  throw new Error("Esse id não existe")
+};
+return credentialById;
+}
+
 const credencialService = {
-  createCredentialService,findByUserId
+  createCredentialService, findByUserId, findByCredentialId
 };
 
 export default credencialService;

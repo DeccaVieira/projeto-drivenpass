@@ -12,15 +12,15 @@ async function findTitleExists(credTitle: string, credId) {
   });
 }
 
-async function findAllCredentialsByUser(credId : number) {
+async function findAllCredentialsByUser(credId: number) {
   return prisma.credential.findMany({
     where: { userId: credId },
   });
 }
 
-async function findIdCredentialsByUser(credId : number, id: number) {
-  return prisma.credential.findMany({
-    where: { id, userId: credId },
+async function findIdCredentialsByUser(id: number, credId: number) {
+  return prisma.credential.findFirst({
+    where: { userId: id, id: credId },
   });
 }
 
