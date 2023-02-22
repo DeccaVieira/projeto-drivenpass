@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../middlewares/authentication-middleware.js";
 import credencialService from "../services/credential-service.js";
 import Cryptr from "cryptr";
-import { number, object } from "joi";
-import { Credent } from "../protocols/credential-protocols.js";
+import credentialService from "../services/credential-service.js";
 
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
 
@@ -45,30 +44,49 @@ async function GetAllCredentials(req: AuthenticatedRequest, res: Response) {
   }
 }
 
-async function getCredentialById(req: AuthenticatedRequest, res: Response){
+async function getCredentialById(req: AuthenticatedRequest, res: Response) {
   const { id } = res.locals.user;
   const credentialId = req.params.id;
-  console.log(credentialId,"req");
-  
+
   const idCredential = +credentialId;
   const userId = +id;
-  try{
-const credentialById = await credencialService.findByCredentialId(userId, idCredential);
+  try {
+    const credentialById = await credencialService.findByCredentialId(
+      userId,
+      idCredential
+    );
 
-  const password = cryptr.decrypt(credentialById.password);
+    const password = cryptr.decrypt(credentialById.password);
 
-return res.status(200).send({...credentialById, password});
-  }catch (error) {
+    return res.status(200).send({ ...credentialById, password });
+  } catch (error) {
     console.log(error);
     return res.status(422).send(error);
   }
 }
-
+export async function deleteCredentialById(
+  req: AuthenticatedRequest,
+  res: Response
+) {
+  const { id } = res.locals.user;
+  const credentialId = req.params.id;
+  const idCredential = +credentialId;
+  const userId = +id;
+  try {
+    await credentialService.deleteCredential(userId, idCredential);
+    return res.send("Excluído com sucesso");
+  } catch (error) {
+    return res
+      .status(422)
+      .send({ error: error, msg: "Não foi possível excluir a credencial" });
+  }
+}
 
 const credentialController = {
   postCredential,
   GetAllCredentials,
-  getCredentialById
+  getCredentialById,
+  deleteCredentialById,
 };
 
 export default credentialController;

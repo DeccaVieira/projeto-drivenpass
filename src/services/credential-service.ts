@@ -33,8 +33,17 @@ if(!credentialById){
 return credentialById;
 }
 
+export async function deleteCredential(userId: number, credentialId) {
+  const credential = await credentialRepository.findIdCredentialsByUser(userId, credentialId)
+  if (!credential) {
+    throw new Error();
+  }
+  console.log(credential, "aaaaa");
+  
+  await credentialRepository.deleteCredentialId(credential.id);
+}
 const credencialService = {
-  createCredentialService, findByUserId, findByCredentialId
+  createCredentialService, findByUserId, findByCredentialId,deleteCredential
 };
 
 export default credencialService;

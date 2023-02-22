@@ -9,4 +9,5 @@ const credencialRouter = Router();
 credencialRouter.post("/credentials", tokenAuthentication ,credentialController.postCredential);
 credencialRouter.get("/credentials", tokenAuthentication, credentialController.GetAllCredentials);
 credencialRouter.get("/credentials/:id", tokenAuthentication, credentialController.getCredentialById);
+credencialRouter.delete("/credentials/:id",tokenAuthentication, credentialController.deleteCredentialById)
 export default credencialRouter;

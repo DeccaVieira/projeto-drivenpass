@@ -24,11 +24,18 @@ async function findIdCredentialsByUser(id: number, credId: number) {
   });
 }
 
+async function deleteCredentialId(credId: number) {
+  await prisma.credential.delete({
+    where: { id: credId },
+  });
+}
+
 const credentialRepository = {
   createCredential,
   findTitleExists,
   findAllCredentialsByUser,
   findIdCredentialsByUser,
+  deleteCredentialId
 };
 
 export default credentialRepository;
