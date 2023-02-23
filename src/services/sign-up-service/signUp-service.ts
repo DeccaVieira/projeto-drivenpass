@@ -1,13 +1,14 @@
-import { User } from "../protocols/signUp-protocols";
-import signUpRepository from "../repositories/signUp-repository.js";
+import { User } from "../../protocols/signUp-protocols";
+import signUpRepository from "../../repositories/signUp-repository.js";
+import signUpErrors from "./errors.js";
 
 async function createUser(email, hashPassword) {
   if (!email || !hashPassword) {
-    throw new Error();
+    throw signUpErrors.emailAndPasswordRequired();
   }
   const userExists = await signUpRepository.findEmail(email);
   if (userExists) {
-    throw new Error();
+    throw signUpErrors.emailAlreadyExists();
   }
   await signUpRepository.createUser(email, hashPassword);
 }

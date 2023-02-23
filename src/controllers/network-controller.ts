@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../middlewares/authentication-middleware.js";
 import Cryptr from "cryptr";
-import networkService from "../services/network-service.js";
+import networkService from "../services/network-service/network-service.js";
 
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
 

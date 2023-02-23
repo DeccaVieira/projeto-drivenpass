@@ -6,8 +6,14 @@ async function validateUserExists(email) {
   });
 }
 
+async function validateUserExistsId(id) {
+  return prisma.user.findFirst({
+    where: { id },
+  });
+} 
+
 const siginInRepository = {
-  validateUserExists,
+  validateUserExists, validateUserExistsId
 }
 
 export default siginInRepository;

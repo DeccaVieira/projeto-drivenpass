@@ -7,9 +7,9 @@ async function createNetwork(network: Network) {
   });
 }
 
-async function findAllNetworksByUser(netId: number) {
+async function findAllNetworksByUser(userId: number) {
   return prisma.network.findMany({
-    where: { userId: netId },
+    where: { userId },
   });
 }
 

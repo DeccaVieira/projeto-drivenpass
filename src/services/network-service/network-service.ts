@@ -1,5 +1,7 @@
-import { Network } from "../protocols/network-protocols.js";
-import networkRepository from "../repositories/network-repository.js";
+import { Network } from "../../protocols/network-protocols.js";
+import networkRepository from "../../repositories/network-repository.js";
+import siginInRepository from "../../repositories/signIn-repository.js";
+import networkErrors from "./errors.js";
 
 async function createNetworkService(network: Network) {
    
@@ -7,10 +9,15 @@ async function createNetworkService(network: Network) {
 }
 
 async function findByUserId (network: Network){
-  const allNetworks = await networkRepository.findAllNetworksByUser(network.userId);
- if(!allNetworks){
-   throw new Error()
- };
+  const userExists = await siginInRepository.validateUserExistsId(
+   network
+  );
+  
+  if (!userExists) {
+    throw networkErrors.userDoesNotExist();
+  }
+  const allNetworks = await networkRepository.findAllNetworksByUser(userExists.id);
+
  return allNetworks;
  }
  

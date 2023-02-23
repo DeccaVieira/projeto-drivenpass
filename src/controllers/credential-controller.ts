@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../middlewares/authentication-middleware.js";
-import credentialService from "../services/credential-service.js";
+import credentialService from "../services/credential-service/credential-service.js";
 import Cryptr from "cryptr";
 
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
 
 async function postCredential(req: AuthenticatedRequest, res: Response) {
   const { title, url, username, password } = req.body;
-  const { email, id } = res.locals.user;
+  const { id } = res.locals.user;
   const encryptedString = cryptr.encrypt(password);
   const credential = {
     title,
@@ -16,17 +16,19 @@ async function postCredential(req: AuthenticatedRequest, res: Response) {
     password: encryptedString,
     userId: id,
   };
- 
+
   try {
     await credentialService.createCredentialService(credential);
     return res.sendStatus(200);
   } catch (error) {
-    console.log(error);
-    return res.status(409).send(error);
+    if (error.name === "userDoesNotExist") {
+      return res.status(error.code).send(error.message);
+    }
+    if (error.name === "titleAlreadyExist") {
+      return res.status(error.code).send(error.message);
+    }
   }
 }
-
-
 
 async function GetAllCredentials(req: AuthenticatedRequest, res: Response) {
   const { id } = res.locals.user;
@@ -39,8 +41,9 @@ async function GetAllCredentials(req: AuthenticatedRequest, res: Response) {
     });
     return res.status(200).send(decrypted);
   } catch (error) {
-    console.log(error);
-    return res.status(422).send(error);
+    if (error.name === "userDoesNotExist") {
+      return res.status(error.code).send(error.message);
+    }
   }
 }
 
@@ -60,11 +63,15 @@ async function getCredentialById(req: AuthenticatedRequest, res: Response) {
 
     return res.status(200).send({ ...credentialById, password });
   } catch (error) {
-    console.log(error);
-    return res.status(422).send(error);
+    if (error.name === "userDoesNotExist") {
+      return res.status(error.code).send(error.message);
+    }
+    if (error.name === "credentialDoesNotExist") {
+      return res.status(error.code).send(error.message);
+    }
   }
 }
-export async function deleteCredentialById(
+async function deleteCredentialById(
   req: AuthenticatedRequest,
   res: Response
 ) {
@@ -74,11 +81,14 @@ export async function deleteCredentialById(
   const userId = +id;
   try {
     await credentialService.deleteCredential(userId, idCredential);
-    return res.send("Excluído com sucesso");
+    return res.status(200).send("Excluído com sucesso");
   } catch (error) {
-    return res
-      .status(422)
-      .send({ error: error, msg: "Não foi possível excluir a credencial" });
+    if (error.name === "userDoesNotExist") {
+      return res.status(error.code).send(error.message);
+    }
+    if (error.name === "credentialDoesNotExist") {
+      return res.status(error.code).send(error.message);
+    }
   }
 }
 
