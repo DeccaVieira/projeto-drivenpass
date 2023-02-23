@@ -2,7 +2,7 @@ import { ModelError } from "../../protocols/error-protocol.js";
 
 function userDoesNotExist(): ModelError {
   return {
-    code: 404,
+    code: 401,
     name: "userDoesNotExist",
     message: "User does not exist",
   };
