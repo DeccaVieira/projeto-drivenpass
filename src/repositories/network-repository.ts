@@ -1,4 +1,4 @@
-import prisma from "../../database/database.js";
+import prisma from "../../config/database.js";
 import { Network } from "../protocols/network-protocols.js";
 
 async function createNetwork(network: Network) {

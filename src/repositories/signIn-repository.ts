@@ -1,4 +1,4 @@
-import prisma from "../../database/database.js";
+import prisma from "../../config/database.js";
 
 async function validateUserExists(email) {
   return prisma.user.findFirst({

@@ -1,7 +1,5 @@
 import signInSchema from "../schemas/users-schemas.js";
 import { NextFunction, Request, Response } from "express";
-import siginInRepository from "../repositories/signIn-repository.js";
-import * as jwt from "jsonwebtoken";
 
 export async function validateSignIn(
   req: Request,

@@ -1,4 +1,4 @@
-import prisma from "../../database/database.js";
+import prisma from "../../config/database.js";
 import { Credential } from "../protocols/credential-protocols.js";
 
 async function createCredential(credential: Credential) {

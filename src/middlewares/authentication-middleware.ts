@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-import prisma from "../../database/database.js";
+import prisma from "../../config/database.js";
 import siginInRepository from "../repositories/signIn-repository.js";
+import signInErrors from "../services/sign-in-service/errors.js";
 
 async function tokenAuthentication(
   req: AuthenticatedRequest,
@@ -18,7 +19,7 @@ async function tokenAuthentication(
 
   const userExists = await siginInRepository.validateUserExists(dataUser.email);
   if (!userExists) {
-    throw new Error();
+    return UnauthorizedResponse(res);
   }
 
   try {
@@ -28,7 +29,7 @@ async function tokenAuthentication(
 
     return next();
   } catch (err) {
-    return UnauthorizedResponse(res);
+    return UnauthorizedResponse(err);
   }
 }
 
@@ -44,7 +45,7 @@ function getTokenData(token: string) {
 }
 
 function UnauthorizedResponse(res: Response) {
-  res.status(422).send("Transação não autorizada!");
+  res.status(401).send("Transação não autorizada!");
 }
 
 export type AuthenticatedRequest = Request & JWTUser;

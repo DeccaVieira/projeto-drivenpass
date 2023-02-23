@@ -6,7 +6,7 @@ import siginInRepository from "../../repositories/signIn-repository.js";
 import { UserSelect } from "../../protocols/signIn-protocols.js";
 import signInErrors from "./errors.js";
 
-async function userLogin(email, password) {
+async function userLogin(email: string, password: string) {
   if (!email || !password) {
     throw signInErrors.emailAndPasswordRequired();
   }
@@ -35,8 +35,8 @@ async function createToken(userExists) {
 async function comparePassword(password: string, userPassword: string) {
   const passwordOk = await bcrypt.compare(password, userPassword);
   if (!passwordOk) {
-    throw signInErrors.wrongEmailOrPassword()
-  };
+    throw signInErrors.wrongEmailOrPassword();
+  }
 }
 
 const signInService = {
