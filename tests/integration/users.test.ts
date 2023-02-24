@@ -3,6 +3,7 @@ import prisma from "config/database";
 import { faker } from "@faker-js/faker";
 import supertest from "supertest";
 import {
+  createCredential,
   createNetwork,
   createToken,
   createUser,
@@ -91,7 +92,7 @@ describe("POST /sign-in", () => {
   });
 });
 describe("POST /networks", () => {
-  it("should respond with status 200 when token is valid", async () => {
+  it("should response with status 200 when token is valid", async () => {
     const token = await createToken();
 
     const response = await app
@@ -106,7 +107,7 @@ describe("POST /networks", () => {
     expect(response.status).toBe(200);
   });
 
-  it("should respond with status 200 when token is valid", async () => {
+  it("should response with status 200 in route Get when token is valid", async () => {
     const pass = faker.internet.password(10);
     const user = await createUserfromNetwork(pass);
     const token = await createToken();
@@ -130,7 +131,6 @@ describe("POST /networks", () => {
     expect(response.status).toBe(404);
   });
 
-
   it("should respond with status 404 when token is valid but network Id does not exist", async () => {
     const pass = faker.internet.password(10);
     const user = await createUserfromNetwork(pass);
@@ -143,18 +143,6 @@ describe("POST /networks", () => {
     expect(response.status).toBe(404);
   });
 
-
-  it("should respond with status 404 when token is valid but network Id does not exist", async () => {
-    const pass = faker.internet.password(10);
-    const user = await createUserfromNetwork(pass);
-    const token = await createToken();
-    const network = await createNetwork(user.id);
-    const response = await app
-      .get("/networks/0")
-      .set("Authorization", `Bearer ${token}`);
-
-    expect(response.status).toBe(404);
-  });
 
   it("should respond with status 401 when token is invalid", async () => {
     const token_fake = jwt.sign(
@@ -191,7 +179,94 @@ describe("POST /networks", () => {
 
     expect(response.status).toBe(401);
   });
+
 });
+
+describe("Route /credentials", () => {
+  
+  it("should respond with status 404 when token is valid but credential Id does not exist", async () => {
+    const pass = faker.internet.password(10);
+    const user = await createUserfromNetwork(pass);
+    const token = await createToken();
+    const credential = await createCredential(user.id);
+    const response = await app
+      .get("/credentials/0")
+      .set("Authorization", `Bearer ${token}`);
+  
+    expect(response.status).toBe(404);
+  });
+
+  it("should response with status 200 in route Get when token is valid", async () => {
+    const pass = faker.internet.password(10);
+    const user = await createUserfromNetwork(pass);
+    const token = await createToken();
+    const network = await createNetwork(user.id);
+    const response = await app
+      .get("/credentials")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should respond with status 401 when token is invalid", async () => {
+    const token_fake = jwt.sign(
+      { id: 0, email: faker.internet.email() },
+      process.env.JWT_SECRET
+    );
+
+    const response = await app
+      .post("/credentials")
+      .send({
+        title: faker.internet.password(),
+        network: faker.internet.password(),
+        password: faker.internet.password(),
+      })
+      .set("Authorization", `Bearer ${token_fake}`);
+
+    expect(response.status).toBe(401);
+  });
+
+  it("should respond with status 404 when token is valid but network Id does not exist", async () => {
+    const pass = faker.internet.password(10);
+    const user = await createUserfromNetwork(pass);
+    const token = await createToken();
+    const credential = await createCredential(user.id);
+    const response = await app
+      .delete(`/credentials/${credential.id}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+
+  it("should respond with status 404 when token is valid but credential Id does not exist", async () => {
+    const pass = faker.internet.password(10);
+    const user = await createUserfromNetwork(pass);
+    const token = await createToken();
+    const credential = await createCredential(user.id);
+    const response = await app
+      .delete(`/credentials/${credential.id}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+  it("should respond with status 404 when token is valid but credential Id does not exist", async () => {
+    const pass = faker.internet.password(10);
+    const user = await createUserfromNetwork(pass);
+    const token = await createToken();
+
+    const response = await app
+      .delete(`/credentials/${0}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+ 
+});
+
+
 
 
 
