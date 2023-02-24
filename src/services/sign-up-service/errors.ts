@@ -1,4 +1,4 @@
-import { ModelError } from "../../protocols/error-protocol.js";
+import { ModelError } from "../../protocols/error-protocol";
 
 function emailAlreadyExists(): ModelError {
   return {

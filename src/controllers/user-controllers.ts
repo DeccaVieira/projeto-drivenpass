@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import signUpService from "../services/sign-up-service/signUp-service.js";
+import signUpService from "../services/sign-up-service/signUp-service";
 
 async function signUp(req: Request, res: Response) {
   const { email, password } = res.locals.user;

@@ -1,6 +1,6 @@
 import { User } from "../../protocols/signUp-protocols";
-import signUpRepository from "../../repositories/signUp-repository.js";
-import signUpErrors from "./errors.js";
+import signUpRepository from "../../repositories/signUp-repository";
+import signUpErrors from "./errors";
 
 async function createUser(email, hashPassword) {
   if (!email || !hashPassword) {

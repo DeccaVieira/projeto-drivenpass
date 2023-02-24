@@ -1,4 +1,4 @@
-import signInSchema from "../schemas/users-schemas.js";
+import signInSchema from "../schemas/users-schemas";
 import { NextFunction, Request, Response } from "express";
 
 export async function validateSignIn(

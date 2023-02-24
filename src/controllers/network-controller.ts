@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { AuthenticatedRequest } from "../middlewares/authentication-middleware.js";
+import { AuthenticatedRequest } from "../middlewares/authentication-middleware";
 import Cryptr from "cryptr";
-import networkService from "../services/network-service/network-service.js";
-import {ModelError} from "../protocols/error-protocol.js"
+import networkService from "../services/network-service/network-service";
+import {ModelError} from "../protocols/error-protocol"
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
 
 async function createNetwork(req: AuthenticatedRequest, res: Response) {

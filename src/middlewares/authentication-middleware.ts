@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-import prisma from "../../config/database.js";
-import siginInRepository from "../repositories/signIn-repository.js";
-import signInErrors from "../services/sign-in-service/errors.js";
+import prisma from "../config/database";
+import siginInRepository from "../repositories/signIn-repository";
+import signInErrors from "../services/sign-in-service/errors";
 
 async function tokenAuthentication(
   req: AuthenticatedRequest,
@@ -17,7 +17,7 @@ async function tokenAuthentication(
 
   const dataUser = getTokenData(token);
 
-  const userExists = await siginInRepository.validateUserExists(dataUser.email);
+  const userExists = await siginInRepository.validateUserExists(dataUser?.email);
   if (!userExists) {
     return UnauthorizedResponse(res);
   }
@@ -29,7 +29,7 @@ async function tokenAuthentication(
 
     return next();
   } catch (err) {
-    return UnauthorizedResponse(err);
+    throw new Error()
   }
 }
 
@@ -37,7 +37,7 @@ function getTokenData(token: string) {
   let tokenData: jwt.JwtPayload;
   jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
     if (error) {
-      throw { type: "unauthorized", message: "invalid token" };
+      return { type: "unauthorized", message: "invalid token" };
     }
     tokenData = decoded as jwt.JwtPayload;
   });

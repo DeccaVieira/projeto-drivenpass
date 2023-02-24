@@ -1,8 +1,8 @@
 import { Router } from "express";
-import credencialRouter from "./credential-router.js";
-import userRouter from "./user-router.js";
-import { authRouter } from "./auth-router.js";
-import networkRouter from "./network-router.js";
+import credencialRouter from "./credential-router";
+import userRouter from "./user-router";
+import { authRouter } from "./auth-router";
+import networkRouter from "./network-router";
 const router = Router();
 
 router.use(userRouter);

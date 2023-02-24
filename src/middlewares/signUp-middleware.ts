@@ -1,11 +1,11 @@
-import signUpSchema from "../schemas/users-schemas.js";
+import signUpSchema from "../schemas/users-schemas";
 import { NextFunction, Request, Response } from "express";
 
 async function validateSignUp(req: Request, res: Response, next: NextFunction) {
   const {email, password, confirmPassword} = req.body;
 
   if(password !== confirmPassword || !confirmPassword){
-    return res.sendStatus(409);
+    return res.sendStatus(422);
   }
 
   const { error } = signUpSchema.validate(req.body, { abortEarly: false });

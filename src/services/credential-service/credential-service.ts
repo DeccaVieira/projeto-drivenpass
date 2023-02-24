@@ -1,7 +1,7 @@
-import { Credential } from "../../protocols/credential-protocols.js";
-import credentialRepository from "../../repositories/credentials-repository.js";
-import credentialErrors from "./errors.js";
-import siginInRepository from "../../repositories/signIn-repository.js";
+import { Credential } from "../../protocols/credential-protocols";
+import credentialRepository from "../../repositories/credentials-repository";
+import credentialErrors from "./errors";
+import siginInRepository from "../../repositories/signIn-repository";
 
 async function createCredentialService(credential: Credential) {
   const titleVerify = await credentialRepository.findTitleExists(

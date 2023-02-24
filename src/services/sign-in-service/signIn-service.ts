@@ -1,10 +1,10 @@
 import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { exclude } from "../../utils/prisma-utils.js";
-import siginInRepository from "../../repositories/signIn-repository.js";
-import { UserSelect } from "../../protocols/signIn-protocols.js";
-import signInErrors from "./errors.js";
+import { exclude } from "../../utils/prisma-utils";
+import siginInRepository from "../../repositories/signIn-repository";
+import { UserSelect } from "../../protocols/signIn-protocols";
+import signInErrors from "./errors";
 
 async function userLogin(email: string, password: string) {
   if (!email || !password) {

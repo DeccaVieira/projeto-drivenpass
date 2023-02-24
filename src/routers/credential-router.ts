@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { validationSchema } from "../middlewares/schemaValidation.js"
-import credentialSchema from "../schemas/credentials-schemas.js";
-import credentialController from "../controllers/credential-controller.js";
-import tokenAuthentication from "../middlewares/authentication-middleware.js"
+import { validationSchema } from "../middlewares/schemaValidation"
+import credentialSchema from "../schemas/credentials-schemas";
+import credentialController from "../controllers/credential-controller";
+import tokenAuthentication from "../middlewares/authentication-middleware"
 
 const credencialRouter = Router();
 

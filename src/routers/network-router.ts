@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { validationSchema } from "../middlewares/schemaValidation.js"
-import networkSchema from "../schemas/network-schemas.js";
-import networkController from "../controllers/network-controller.js";
-import tokenAuthentication from "../middlewares/authentication-middleware.js"
+import { validationSchema } from "../middlewares/schemaValidation"
+import networkSchema from "../schemas/network-schemas";
+import networkController from "../controllers/network-controller";
+import tokenAuthentication from "../middlewares/authentication-middleware"
 
 
 const networkRouter = Router();

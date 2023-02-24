@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import signInService from "../services/sign-in-service/signIn-service.js";
+import signInService from "../services/sign-in-service/signIn-service";
 
 async function signInController(req: Request, res: Response) {
   const { email, password } = res.locals.user;
