@@ -263,7 +263,23 @@ describe("Route /credentials", () => {
     expect(response.status).toBe(404);
   });
 
- 
+  it("should response with status 200 when token is valid", async () => {
+    const pass = faker.internet.password(10);
+    const user = await createUserfromNetwork(pass);
+    const token = await createToken();
+    const credential = await createCredential(user.id);
+    const response = await app
+      .post("/credentials")
+      .send({
+        title: credential.title,
+        url:"http://www.google.com",
+        username: credential.username,
+        password: credential.password,
+      })
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
 });
 
 

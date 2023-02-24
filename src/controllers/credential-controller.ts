@@ -21,9 +21,6 @@ async function postCredential(req: AuthenticatedRequest, res: Response) {
     await credentialService.createCredentialService(credential);
     return res.sendStatus(200);
   } catch (error) {
-    if (error.name === "userDoesNotExist") {
-      return res.status(error.code).send(error.message);
-    }
     if (error.name === "titleAlreadyExist") {
       return res.status(error.code).send(error.message);
     }
@@ -41,9 +38,8 @@ async function GetAllCredentials(req: AuthenticatedRequest, res: Response) {
     });
     return res.status(200).send(decrypted);
   } catch (error) {
-    if (error.name === "userDoesNotExist") {
       return res.status(error.code).send(error.message);
-    }
+
   }
 }
 
@@ -63,9 +59,6 @@ async function getCredentialById(req: AuthenticatedRequest, res: Response) {
 
     return res.status(200).send({ ...credentialById, password });
   } catch (error) {
-    if (error.name === "userDoesNotExist") {
-      return res.status(error.code).send(error.message);
-    }
     if (error.name === "credentialDoesNotExist") {
       return res.status(error.code).send(error.message);
     }
@@ -83,9 +76,6 @@ async function deleteCredentialById(
     await credentialService.deleteCredential(userId, idCredential);
     return res.status(200).send("Excluído com sucesso");
   } catch (error) {
-    if (error.name === "userDoesNotExist") {
-      return res.status(error.code).send(error.message);
-    }
     if (error.name === "credentialDoesNotExist") {
       return res.status(error.code).send(error.message);
     }
